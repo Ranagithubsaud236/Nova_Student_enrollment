@@ -1,0 +1,46 @@
+# Python & Flask
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+*.tar.gz
+*.tar
+.dockerignore   # (optional, but good to keep separate)
+
+# Logs & databases
+*.log
+*.db
+*.sqlite
+*.sqlite3
+
+# Deployment & temp files
+*.pid
+*.seed
+*.pid.lock
