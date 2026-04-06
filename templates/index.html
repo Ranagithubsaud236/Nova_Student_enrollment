@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nova | Student Enrollment Portal</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 10% 30%, rgba(0, 20, 40, 0.95), rgba(0, 5, 15, 0.98)), repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px);
+            color: #eef5ff;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphic cards */
+        .card {
+            background: rgba(15, 30, 45, 0.55);
+            backdrop-filter: blur(14px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 32px 48px -18px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+            gap: 1rem;
+        }
+
+        .title-section h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #FFFFFF, #9CD4E0, #60B0C0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-section h1 i {
+            background: none;
+            color: #7ad0e0;
+            text-shadow: 0 0 12px rgba(122,208,224,0.5);
+        }
+
+        .title-section p {
+            color: #bbdef5;
+            font-weight: 500;
+            margin-top: 0.3rem;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .stats-badge {
+            background: rgba(0, 20, 35, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 100px;
+            padding: 0.7rem 1.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 1px solid rgba(122, 208, 224, 0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+
+        .stats-badge:hover {
+            border-color: #7ad0e0;
+            transform: scale(1.02);
+        }
+
+        .stats-badge i {
+            font-size: 1.5rem;
+            color: #7ad0e0;
+        }
+
+        /* Form card */
+        .form-card {
+            padding: 2rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1.8rem;
+            color: #ffffff;
+            border-left: 4px solid #7ad0e0;
+            padding-left: 1rem;
+        }
+
+        .section-title i {
+            color: #7ad0e0;
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #bbdef5;
+        }
+
+        .input-group input, .input-group select {
+            padding: 0.9rem 1.2rem;
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(5, 20, 30, 0.7);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .input-group select option {
+            background: #0a1a28;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #7ad0e0;
+            box-shadow: 0 0 0 3px rgba(122, 208, 224, 0.3);
+            background: rgba(10, 30, 45, 0.9);
+        }
+
+        .input-group input::placeholder {
+            color: #8aadc5;
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #1f6e7a, #389ba8);
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 700;
+            color: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            justify-content: center;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #155e6a, #2c8794);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px -8px rgba(0,0,0,0.5);
+        }
+
+        /* Search & toolbar */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .search-wrapper {
+            flex: 2;
+            min-width: 240px;
+            position: relative;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9bc2dc;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.8rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(5, 20, 30, 0.7);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-wrapper input:focus {
+            border-color: #7ad0e0;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(122,208,224,0.3);
+        }
+
+        .btn-clear {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.7rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #d9ecff;
+        }
+
+        .btn-clear:hover {
+            background: rgba(122,208,224,0.2);
+            border-color: #7ad0e0;
+            color: white;
+        }
+
+        /* Table styling */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 1.5rem;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(8, 18, 28, 0.6);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .student-table thead tr {
+            background: rgba(0, 25, 40, 0.8);
+            border-bottom: 1px solid rgba(122,208,224,0.3);
+        }
+
+        .student-table th {
+            text-align: left;
+            padding: 1.2rem 1rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #b4defa;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .student-table td {
+            padding: 1rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: middle;
+            color: #eef5ff;
+            font-weight: 500;
+        }
+
+        .student-table tr:hover td {
+            background: rgba(122, 208, 224, 0.08);
+        }
+
+        .delete-btn {
+            background: rgba(255, 80, 80, 0.15);
+            border: none;
+            color: #ffa2a2;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 2rem;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+            color: #ffc5c5;
+            transform: scale(1.05);
+        }
+
+        .empty-row td {
+            text-align: center;
+            padding: 2.5rem;
+            color: #aac8e2;
+            font-weight: 500;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .toast {
+            background: rgba(10, 25, 40, 0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 0.9rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 12px 25px -8px black;
+            animation: slideIn 0.25s ease;
+            border-left: 4px solid;
+        }
+
+        .toast.success { border-left-color: #2b9348; }
+        .toast.error { border-left-color: #e63946; }
+        .toast.info { border-left-color: #7ad0e0; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.75rem;
+            color: #7c9ec0;
+        }
+
+        @media (max-width: 680px) {
+            body { padding: 1rem; }
+            .form-card { padding: 1.2rem; }
+            .student-table th, .student-table td { padding: 0.8rem 0.6rem; font-size: 0.8rem; }
+            .hero { flex-direction: column; align-items: start; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="hero">
+        <div class="title-section">
+            <h1><i class="fas fa-graduation-cap"></i> Nova Enrollment</h1>
+            <p>fluid · intelligent · modern student hub</p>
+        </div>
+        <div class="stats-badge" id="totalStatsBadge">
+            <i class="fas fa-users"></i>
+            <span id="totalStudentsCount">0</span> <span style="font-weight: 400;">enrolled</span>
+        </div>
+    </div>
+
+    <!-- Add Student Form Card -->
+    <div class="card form-card">
+        <div class="section-title">
+            <i class="fas fa-user-plus"></i>
+            <span>Register new student</span>
+        </div>
+        <div class="form-grid">
+            <div class="input-group">
+                <label><i class="far fa-user"></i> Full name</label>
+                <input type="text" id="studentName" placeholder="Full name" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-id-card"></i> Student ID</label>
+                <input type="text" id="studentId" placeholder="Student ID" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-book-open"></i> Course</label>
+                <select id="studentCourse">
+                    <option value="" disabled selected>Select a course</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Data Science & AI">Data Science & AI</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Design & Multimedia">Design & Multimedia</option>
+                    <option value="Cybersecurity">Cybersecurity</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> Email address</label>
+                <input type="email" id="studentEmail" placeholder="student@example.edu">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <button class="btn-primary" id="addStudentBtn"><i class="fas fa-sparkles"></i> Enroll student</button>
+        </div>
+    </div>
+
+    <!-- Students list card -->
+    <div class="card" style="padding: 1.8rem 1.8rem 2rem 1.8rem;">
+        <div class="section-title">
+            <i class="fas fa-table-list"></i>
+            <span>Enrolled learners</span>
+        </div>
+        <div class="toolbar">
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by name, ID, course or email...">
+            </div>
+            <button class="btn-clear" id="clearSearchBtn"><i class="fas fa-times-circle"></i> Clear</button>
+        </div>
+        <div class="table-container">
+            <table class="student-table" id="studentsTable">
+                <thead>
+                    <tr><th>Full name</th><th>Student ID</th><th>Course</th><th>Email</th><th style="width: 70px;">Action</th></tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <tr class="empty-row"><td colspan="5"><i class="fas fa-spinner fa-pulse"></i> loading roster...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-database"></i> real‑time sync · next‑gen enrollment
+    </footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    // DOM elements
+    const studentsTableBody = document.getElementById('studentsTableBody');
+    const addBtn = document.getElementById('addStudentBtn');
+    const studentName = document.getElementById('studentName');
+    const studentId = document.getElementById('studentId');
+    const studentCourse = document.getElementById('studentCourse');
+    const studentEmail = document.getElementById('studentEmail');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const totalSpan = document.getElementById('totalStudentsCount');
+
+    let allStudents = [];
+    let currentFilter = '';
+    let isLoading = false;
+
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        let icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle');
+        toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(40px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderTable() {
+        if (!studentsTableBody) return;
+        let filtered = [...allStudents];
+        if (currentFilter.trim() !== '') {
+            const term = currentFilter.trim().toLowerCase();
+            filtered = allStudents.filter(s => 
+                s.name.toLowerCase().includes(term) ||
+                s.student_id.toLowerCase().includes(term) ||
+                s.course.toLowerCase().includes(term) ||
+                s.email.toLowerCase().includes(term)
+            );
+        }
+        totalSpan.innerText = allStudents.length;
+
+        if (filtered.length === 0) {
+            studentsTableBody.innerHTML = `<tr class="empty-row"><td colspan="5"><i class="fas fa-user-graduate"></i> No students found. ${
+                allStudents.length === 0 ? 'Start by adding a new student.' : 'Try a different search.'
+            }</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        for (let s of filtered) {
+            html += `
+                <tr>
+                    <td><i class="fas fa-user-circle" style="color:#7ad0e0; margin-right: 10px;"></i>${escapeHtml(s.name)}</td>
+                    <td><span style="background:rgba(122,208,224,0.2); padding:0.2rem 0.8rem; border-radius:40px; font-size:0.8rem;">${escapeHtml(s.student_id)}</span></td>
+                    <td><i class="fas fa-graduation-cap" style="opacity:0.8; margin-right:6px;"></i>${escapeHtml(s.course)}</td>
+                    <td><i class="fas fa-envelope" style="opacity:0.7; margin-right:6px;"></i>${escapeHtml(s.email)}</td>
+                    <td><button class="delete-btn" data-student-id="${escapeHtml(s.student_id)}" data-student-name="${escapeHtml(s.name)}"><i class="fas fa-trash-alt"></i></button></td>
+                </tr>
+            `;
+        }
+        studentsTableBody.innerHTML = html;
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.removeEventListener('click', handleDeleteClick);
+            btn.addEventListener('click', handleDeleteClick);
+        });
+    }
+
+    async function handleDeleteClick(event) {
+        const button = event.currentTarget;
+        const studentIdVal = button.getAttribute('data-student-id');
+        const studentNameVal = button.getAttribute('data-student-name');
+        if (!studentIdVal) return;
+        if (!confirm(`Remove ${studentNameVal} (ID: ${studentIdVal}) from enrollment?`)) return;
+        
+        const originalIcon = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+        button.disabled = true;
+        
+        try {
+            const response = await fetch(`/api/students/${encodeURIComponent(studentIdVal)}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                showToast(`✓ ${studentNameVal} removed successfully`, 'success');
+                await fetchStudents();
+            } else {
+                let errorMsg = `Failed to delete student.`;
+                if (response.status === 404) errorMsg = 'Student not found.';
+                else if (response.status === 500) errorMsg = 'Server error.';
+                showToast(errorMsg, 'error');
+                button.innerHTML = originalIcon;
+                button.disabled = false;
+            }
+        } catch (err) {
+            showToast('Network error: unable to delete', 'error');
+            button.innerHTML = originalIcon;
+            button.disabled = false;
+        }
+    }
+
+    async function fetchStudents() {
+        if (isLoading) return;
+        isLoading = true;
+        studentsTableBody.innerHTML = `<tr class="empty-row"><td colspan="5"><i class="fas fa-spinner fa-pulse"></i> syncing data...</td></tr>`;
+        try {
+            const res = await fetch('/api/students');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            allStudents = Array.isArray(data) ? data : [];
+            renderTable();
+        } catch (error) {
+            console.error('Fetch error:', error);
+            showToast('Could not load students. Check server connection.', 'error');
+            studentsTableBody.innerHTML = `<tr class="empty-row"><td colspan="5"><i class="fas fa-exclamation-circle"></i> Failed to load data. Refresh?</td></tr>`;
+            allStudents = [];
+            renderTable();
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    async function addStudent() {
+        const name = studentName.value.trim();
+        const sid = studentId.value.trim();
+        const course = studentCourse.value;
+        const email = studentEmail.value.trim();
+
+        if (!name || !sid || !course || !email) {
+            showToast('All fields are required (name, ID, course, email)', 'error');
+            return;
+        }
+        const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return;
+        }
+
+        const originalBtnText = addBtn.innerHTML;
+        addBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Enrolling...';
+        addBtn.disabled = true;
+
+        const payload = { name, student_id: sid, course, email };
+
+        try {
+            const response = await fetch('/api/students', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                showToast(`✨ ${name} enrolled successfully!`, 'success');
+                studentName.value = '';
+                studentId.value = '';
+                studentCourse.value = '';
+                studentEmail.value = '';
+                await fetchStudents();
+            } else {
+                let errMsg = result.error || 'Enrollment failed';
+                if (response.status === 409) errMsg = 'Student ID already exists. Use a unique ID.';
+                showToast(errMsg, 'error');
+            }
+        } catch (err) {
+            showToast('Server unreachable. Please try again.', 'error');
+        } finally {
+            addBtn.innerHTML = originalBtnText;
+            addBtn.disabled = false;
+        }
+    }
+
+    function updateSearchFilter() {
+        currentFilter = searchInput.value;
+        renderTable();
+    }
+
+    function clearSearch() {
+        searchInput.value = '';
+        currentFilter = '';
+        renderTable();
+    }
+
+    addBtn.addEventListener('click', addStudent);
+    searchInput.addEventListener('input', updateSearchFilter);
+    clearSearchBtn.addEventListener('click', clearSearch);
+
+    const formInputs = [studentName, studentId, studentEmail];
+    formInputs.forEach(inp => {
+        inp.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addStudent();
+            }
+        });
+    });
+    // Also allow Enter on select? optional
+    studentCourse.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addStudent();
+    });
+
+    fetchStudents();
+</script>
+</body>
+</html>
